@@ -1,21 +1,20 @@
 require 'rails_helper'
 
 # 'At least 1 rspec test' -> Cucumber tests already pass 100%
-describe 'Tests1' do
-  it 'Test Movie class' do
+describe 'MoiveTests1' do
+  it 'Movie class is stable' do
     expect { Movie }.not_to raise_error
   end
 end
 
-describe 'Tests2' do
-  it 'Test movie find by title' do
-    expect { Movie.find_by_title("Shaolin") }.not_to raise_error
+describe 'MoiveTests2' do
+  it 'Movie can find other movies.' do
+    expect { Movie.where(director: "steve") }.not_to raise_error
   end
 end
 
-describe 'Tests3' do
-  it 'Test movie find by director.' do
-    expect { Movie.where(director: "Jackie Li") }.not_to raise_error
+describe 'MoiveTests3' do
+  it 'Movie can find by title' do
+    expect { Movie.find_by_title("Aladdin") }.not_to raise_error
   end
 end
-

@@ -12,31 +12,16 @@ Background: movies in database
   | Blade Runner | PG     | Ridley Scott |   1982-06-25 |
   | Alien        | R      |              |   1979-05-25 |
   | THX-1138     | R      | George Lucas |   1971-03-11 |
-  | Death        | R      |              |   2079-05-25 |
-  | Shaolin      | R      | Jackie Li    |   1980-01-01 |
-  | Shaolin2     | R      | Jackie Li    |   1983-01-01 |
-  | Shaolin3     | R      | Jackie Li    |   1985-01-01 |
+  | Hey Vihang   | R      |              |   1971-03-11 |
+  | Another Test | R      |              |   1971-03-11 |
+
 Scenario: add director to existing movie
   When I go to the edit page for "Alien"
   And  I fill in "Director" with "Ridley Scott"
   And  I press "Update Movie Info"
   Then the director of "Alien" should be "Ridley Scott"
 
-Scenario: add director to existing movie2
-  When I go to the edit page for "Death"
-  And  I fill in "Director" with "Alan yang"
-  And  I press "Update Movie Info"
-  Then the director of "Death" should be "Alan yang"
-  
 Scenario: find movie with same director
-  Given I am on the details page for "Shaolin"
-  When  I follow "Find Movies With Same Director"
-  Then  I should be on the Similar Movies page for "Shaolin"
-  And   I should see "Shaolin2"
-  And   I should see "Shaolin3"
-  But   I should not see "Death"
-  
-Scenario: find movie with same director2
   Given I am on the details page for "Star Wars"
   When  I follow "Find Movies With Same Director"
   Then  I should be on the Similar Movies page for "Star Wars"
@@ -44,15 +29,29 @@ Scenario: find movie with same director2
   But   I should not see "Blade Runner"
 
 Scenario: can't find similar movies if we don't know director (sad path)
-  Given I am on the details page for "Death"
-  Then  I should not see "Ridley Scott"
-  When  I follow "Find Movies With Same Director"
-  Then  I should be on the home page
-  And   I should see "'Death' has no director info"
-  
-  Scenario: can't find similar movies if we don't know director (sad path)2
   Given I am on the details page for "Alien"
   Then  I should not see "Ridley Scott"
   When  I follow "Find Movies With Same Director"
   Then  I should be on the home page
   And   I should see "'Alien' has no director info"
+  
+# Adding 3 more tests based on the HW3 guidance
+
+Scenario: change director of existing movie
+  When I go to the edit page for "Hey Vihang"
+  And  I fill in "Director" with "Walker"
+  And  I press "Update Movie Info"
+  Then the director of "Hey Vihang" should be "Walker"
+
+Scenario: remove director for existing movie
+  When I go to the edit page for "Hey Vihang"
+  And  I fill in "Director" with ""
+  And  I press "Update Movie Info"
+  Then the director of "Hey Vihang" should be ""
+
+Scenario: can find similar movies for empty string director
+  Given I am on the details page for "Hey Vihang"
+  Then  I should not see "Walker"
+  When  I follow "Find Movies With Same Director"
+  Then  I should be on the home page
+  And   I should see "'Hey Vihang' has no director info"
